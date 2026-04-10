@@ -1,153 +1,420 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
+/* ICHS Agricultural/Bio Theme */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Root Variables for Agricultural Theme */
+:root {
+  --primary-green: #2e7d32;
+  --secondary-green: #4caf50;
+  --light-green: #81c784;
+  --dark-green: #1b5e20;
+  --accent-orange: #ff9800;
+  --accent-yellow: #ffc107;
+  --soil-brown: #8d6e63;
+  --sky-blue: #e3f2fd;
+  --leaf-green: #66bb6a;
+  --warning-red: #f44336;
+  --success-green: #4caf50;
+  --info-blue: #2196f3;
+  --text-dark: #2c3e50;
+  --text-light: #ecf0f1;
+  --bg-gradient: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+  --card-shadow: 0 8px 32px rgba(46, 125, 50, 0.1);
+  --border-radius: 12px;
 }
 
-.App {
-  text-align: center;
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-gradient);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.App-header {
-  background-color: #2e7d32;
-  color: white;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Navigation */
+.navbar-custom {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%) !important;
+  box-shadow: var(--card-shadow);
+  border: none;
+  padding: 1rem 0;
 }
 
-.App-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
-}
-
-.App-main {
-  flex: 1;
-  padding: 20px;
+.brand-custom {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white !important;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.diagnosis-container {
-  background: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  max-width: 600px;
+.brand-icon {
+  color: var(--accent-yellow);
+  font-size: 1.8rem;
+}
+
+.nav-link-custom {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom.active {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
 }
 
-.upload-section, .symptom-section, .results-section {
-  margin-bottom: 30px;
-  text-align: left;
+/* Cards */
+.diagnosis-card,
+.alerts-card,
+.map-card {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
 }
 
-.upload-btn {
-  background-color: #4caf50;
+.card-header-custom {
+  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 20px;
-  transition: background-color 0.3s;
+  padding: 1.5rem;
 }
 
-.upload-btn:hover {
-  background-color: #45a049;
+.card-header-custom h3 {
+  margin: 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-header-custom p {
+  margin: 0.5rem 0 0 0;
+  opacity: 0.9;
+}
+
+/* Upload Section */
+.upload-section {
+  margin-bottom: 2rem;
+}
+
+.upload-area {
+  border: 3px dashed var(--light-green);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, rgba(129, 199, 132, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  margin: 1rem 0;
+}
+
+.upload-area:hover {
+  border-color: var(--secondary-green);
+  background: linear-gradient(135deg, rgba(129, 199, 132, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+  transform: translateY(-2px);
+}
+
+.upload-placeholder {
+  color: var(--primary-green);
+}
+
+.upload-icon {
+  color: var(--accent-yellow);
+  margin-bottom: 1rem;
+}
+
+.image-preview-container {
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .image-preview {
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fafafa;
-}
-
-.image-preview img {
   max-width: 100%;
   max-height: 300px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Symptom Section */
+.symptom-section h5 {
+  color: var(--primary-green);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .symptom-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
+  border: 2px solid var(--light-green);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: inherit;
   resize: vertical;
-  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
+.symptom-input:focus {
+  border-color: var(--secondary-green);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  outline: none;
+}
+
+/* Buttons */
 .submit-btn {
-  background-color: #2196f3;
-  color: white;
+  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
   border: none;
-  padding: 15px 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  width: 100%;
-  transition: background-color 0.3s;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.submit-btn:hover:not(.loading) {
-  background-color: #1976d2;
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
-.submit-btn.loading {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.submit-btn:disabled {
+  background: #cccccc;
+  box-shadow: none;
 }
 
+/* Results Section */
 .results-section {
-  text-align: left;
+  margin-top: 2rem;
 }
 
-.result-card {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
+.alert {
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-left: 4px solid var(--success-green);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  border-left: 4px solid var(--warning-red);
+}
+
+/* Alerts */
+.alert-item {
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
+  border-left: 4px solid var(--warning-red);
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
+  border-left: 4px solid var(--accent-yellow);
+}
+
+.alert-info {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
+  border-left: 4px solid var(--info-blue);
+}
+
+/* Map */
+.map-container {
+  height: 500px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  overflow: hidden;
+}
+
+.map-placeholder {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--sky-blue) 0%, rgba(129, 199, 132, 0.1) 100%);
+  color: var(--primary-green);
+}
+
+.map-placeholder svg {
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+/* Leaflet Customizations */
+.leaflet-container {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.leaflet-popup-content-wrapper {
   border-radius: 8px;
-  padding: 20px;
-  margin-top: 15px;
+  box-shadow: var(--card-shadow);
 }
 
-.result-card p {
-  margin: 8px 0;
-  font-size: 16px;
+.leaflet-popup-tip {
+  background-color: white;
 }
 
-.App-footer {
-  background-color: #333;
+/* Footer */
+.app-footer {
+  background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
   color: white;
-  text-align: center;
-  padding: 15px;
+  padding: 2rem 0;
   margin-top: auto;
 }
 
-h2, h3 {
-  color: #2e7d32;
-  margin-bottom: 15px;
+.app-footer p {
+  margin: 0;
+  font-weight: 500;
 }
 
-h2 {
-  font-size: 2rem;
-  margin-bottom: 25px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem 0.5rem;
+  }
+
+  .diagnosis-card .card-body {
+    padding: 1.5rem;
+  }
+
+  .upload-area {
+    padding: 1.5rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .nav-link-custom {
+    padding: 0.5rem;
+    margin: 0 0.125rem;
+  }
 }
 
-h3 {
-  font-size: 1.5rem;
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.diagnosis-card,
+.alerts-card,
+.map-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sky-blue);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--light-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-green);
+}
+
+/* Loading states */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  z-index: 10;
+}
+
+/* Agricultural theme specific elements */
+.soil-texture {
+  background: linear-gradient(45deg, var(--soil-brown) 25%, transparent 25%),
+              linear-gradient(-45deg, var(--soil-brown) 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, var(--soil-brown) 75%),
+              linear-gradient(-45deg, transparent 75%, var(--soil-brown) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.growth-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.growth-indicator::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.2), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
