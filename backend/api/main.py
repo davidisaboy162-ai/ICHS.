@@ -124,7 +124,17 @@ async def predict_combined(
         combined_pred = {
             "image_prediction": image_pred,
             "text_prediction": text_pred,
-            "combined_confidence": (image_pred.get("confidence", 0) + text_pred.get("confidence", 0)) / 2
+            "combined_confidence": (image_pred.get("confidence", 0) + text_pred.
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ("confidence", 0)) / 2
         }
 
         return {
