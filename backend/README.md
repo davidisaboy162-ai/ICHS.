@@ -42,3 +42,6 @@ Core endpoints:
 - Prediction services are stubs so frontend can integrate now.
 - Replace `apps/diagnosis/services.py` with trained EfficientNet-B4 and BERT model serving.
 - Alert service currently uses haversine fallback; move to SQL `ST_DWithin` queries once PostGIS migrations are enabled.
+
+
+source .venv/bin/activate
