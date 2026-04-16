@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "name": "ICHS Mobile",
+    "slug": "ichs-mobile",
+    "version": "0.1.0",
+    "platforms": ["ios", "android"]
+  }
+}
