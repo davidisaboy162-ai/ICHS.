@@ -15,14 +15,16 @@ ICHS/
 │   ├── mobile/           # React Native app (camera + GPS)
 │   ├── web/             # React web app with Leaflet maps
 │   └── shared/          # Shared components
-├── backend/              # ML & API services
-│   ├── ml/              # ML models & training
-│   │   ├── models.py    # CNN & NLP model classes
-│   │   └── data_processor.py # Data processing
-│   ├── api/             # REST API server
-│   │   └── main.py      # FastAPI server with endpoints
-│   └── services/        # Additional services
-│       └── geo_alert.py # Geo-tagging & alert system
+├── backend/              # Django REST backend
+│   ├── ichs/            # Django project config
+│   ├── apps/            # Modular domain apps
+│   │   ├── users/       # JWT auth + farmer profiles
+│   │   ├── diagnosis/   # Image/text/combined diagnosis APIs
+│   │   ├── alerts/      # Hyper-local outbreak alerts
+│   │   ├── weather/     # Weather-linked risk scoring
+│   │   └── community/   # Farmer community hub
+│   ├── ml/              # ML models & training scripts
+│   └── README.md        # Backend setup details
 ├── datasets/            # Data management
 │   ├── images/          # Image datasets
 │   │   └── raw/        # Raw crop images
@@ -59,9 +61,10 @@ pip install -r requirements.txt
 # Download datasets (see DATASET_SETUP.md)
 ./download_datasets.sh
 
-# Start the ML API server
-cd backend/api
-python main.py
+# Start Django API server
+cd backend
+python manage.py migrate
+python manage.py runserver
 ```
 Backend will run on: `http://localhost:8000`
 
@@ -105,10 +108,12 @@ Frontend will run on: `http://localhost:3000`
 
 ### 🔌 API Endpoints
 ```
-POST /predict/image      # Image-based diagnosis
-POST /predict/text       # Text-based diagnosis
-POST /predict/combined   # Multi-modal diagnosis
-GET  /alerts/{farmer_id} # Get alerts for farmer
+POST /api/v1/predict/image/      # Image-based diagnosis
+POST /api/v1/predict/text/       # Text-based diagnosis
+POST /api/v1/predict/combined/   # Multi-modal diagnosis
+GET  /api/v1/alerts/             # Get alerts for authenticated farmer
+POST /api/v1/weather/risk/       # Weather-linked disease risk
+GET/POST /api/v1/community/posts/ # Community hub posts
 ```
 
 ## 📊 Datasets
