@@ -1,35 +1,62 @@
-# ICHS Configuration
+# ICHS Configuration (aligned to dissertation Chapter III stack)
 
-# Data Configuration
+project:
+  name: "Inclusive Crop Health System"
+  timezone: "Africa/Lagos"
+
+database:
+  engine: "postgresql"
+  host: "localhost"
+  port: 5432
+  name: "ichs"
+  user: "postgres"
+  password_env: "DB_PASSWORD"
+  postgis_enabled: true
+
+api:
+  framework: "django_rest_framework"
+  jwt_auth: true
+  base_path: "/api/v1"
+  cors_allow_all_origins: true
+
 data:
-  raw_path: "data/raw"
-  processed_path: "data/processed"
+  image_dataset_path: "datasets/images/raw"
+  text_dataset_path: "datasets/text"
+  processed_path: "datasets/processed"
   train_split: 0.8
   val_split: 0.1
   test_split: 0.1
   seed: 42
 
-# Image Model Configuration
-image_model:
-  type: "ResNet50"
-  input_shape: [224, 224, 3]
-  num_classes: 10
-  pretrained: true
+models:
+  image:
+    architecture: "EfficientNet-B4"
+    framework: "TensorFlow"
+    input_shape: [224, 224, 3]
+    num_classes: 38
+    pretrained: true
+    model_path: "models/efficientnet_b4_disease.keras"
+  text:
+    architecture: "BERT"
+    framework: "PyTorch"
+    max_length: 256
+    num_classes: 38
+    model_path: "models/bert_symptom_classifier.pt"
+  fusion:
+    strategy: "confidence_weighted_average"
 
-# NLP Model Configuration
-nlp_model:
-  type: "BERT"
-  max_length: 512
-  num_classes: 10
+geospatial:
+  default_alert_radius_km: 10
+  query_strategy: "postgis_st_dwithin"
 
-# Training Configuration
+weather:
+  provider: "openweathermap"
+  api_key_env: "OPENWEATHER_API_KEY"
+  forecast_days: 5
+
 training:
   epochs: 50
   batch_size: 32
-  learning_rate: 0.001
+  learning_rate: 0.0001
   optimizer: "adam"
-
-# Paths
-model_paths:
-  image_model: "models/cnn_model.h5"
-  nlp_model: "models/nlp_model.pkl"
+  early_stopping_patience: 5
