@@ -1,13 +1,13 @@
 # ICHS - Inclusive Crop Health System
 
-## 🌱 AI-Powered Crop Disease Diagnosis for Farmers
+## AI-Powered Crop Disease Diagnosis for Farmers
 
 An intelligent platform designed to maximize inclusivity with dual diagnosis capabilities:
-- **📸 Image-based diagnosis** using Convolutional Neural Networks (CNNs) for farmers with smartphone access
-- **💬 Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices
-- **📍 Geo-tagging and alerts** for neighboring farmers about potential outbreak threats
+- **Image-based diagnosis** using Convolutional Neural Networks (CNNs) for farmers with smartphone access
+- **Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices
+- **Geo-tagging and alerts** for neighboring farmers about potential outbreak threats
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 ICHS/
@@ -40,7 +40,7 @@ ICHS/
 └── requirements.txt     # Dependencies
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Python 3.8+
@@ -79,34 +79,34 @@ npm start
 ```
 Frontend will run on: `http://localhost:3000`
 
-## 🎨 Frontend Features
+##  Frontend Features
 
-### 🌐 Web Application
+###  Web Application
 - **Interactive Map**: Leaflet-powered map showing disease outbreaks
 - **Disease Alerts**: Real-time notifications about nearby outbreaks
 - **Dual Diagnosis**: Image upload + symptom description
 - **Agricultural Theme**: Nature-inspired design with green color palette
 - **Responsive Design**: Works on desktop and mobile devices
 
-### 📱 Mobile App (React Native)
+###  Mobile App (React Native)
 - **Camera Integration**: Direct photo capture from device
 - **GPS Location**: Automatic geo-tagging of reports
 - **Offline Capability**: Basic functionality without internet
 - **Push Notifications**: Alert system for disease outbreaks
 
-## 🧠 Backend Features
+##  Backend Features
 
-### 🤖 Machine Learning Pipeline
+###  Machine Learning Pipeline
 - **CNN Models**: ResNet50/EfficientNet for image classification
 - **NLP Models**: BERT/DistilBERT for symptom analysis
 - **Combined Prediction**: Multi-modal diagnosis with confidence scoring
 
-### 🗺️ Geo-Spatial Services
+###  Geo-Spatial Services
 - **Location Tracking**: GPS coordinates for all reports
 - **Alert System**: Notify farmers within configurable radius
 - **Outbreak Mapping**: Visualize disease spread patterns
 
-### 🔌 API Endpoints
+###  API Endpoints
 ```
 POST /api/v1/predict/image/      # Image-based diagnosis
 POST /api/v1/predict/text/       # Text-based diagnosis
@@ -116,7 +116,7 @@ POST /api/v1/weather/risk/       # Weather-linked disease risk
 GET/POST /api/v1/community/posts/ # Community hub posts
 ```
 
-## 📊 Datasets
+##  Datasets
 
 ### Image Datasets
 - **PlantVillage Dataset**: 54,000+ labeled crop disease images
@@ -128,7 +128,7 @@ GET/POST /api/v1/community/posts/ # Community hub posts
 - **Multi-language support** for global farmers
 - **CSV format** with disease labels and confidence scores
 
-## 🛠️ Development
+##  Development
 
 ### Running Tests
 ```bash
@@ -152,7 +152,7 @@ Edit `config/config.yaml` to customize:
 - API settings
 - Alert radius
 
-## 🌍 Impact & Inclusivity
+##  Impact & Inclusivity
 
 ### For Smartphone Users
 - **Visual Diagnosis**: Take photos of affected crops
@@ -169,7 +169,7 @@ Edit `config/config.yaml` to customize:
 - **Data Collection**: Build comprehensive crop health database
 - **Farmer Empowerment**: Access to expert-level diagnosis anywhere
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -177,11 +177,11 @@ Edit `config/config.yaml` to customize:
 4. Add tests
 5. Submit a pull request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **PlantVillage Dataset** for comprehensive crop disease images
 - **OpenStreetMap** for mapping services
