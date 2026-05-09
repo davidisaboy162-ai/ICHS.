@@ -4,8 +4,8 @@
 
 An intelligent platform designed to maximize inclusivity with dual diagnosis capabilities:
 - **Image-based diagnosis** using Convolutional Neural Networks (CNNs) for farmers with smartphone access.
-- **Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices
-- **Geo-tagging and alerts** for neighboring farmers about potential outbreak threats
+- **Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices.
+- **Geo-tagging and alerts** for neighboring farmers about potential outbreak threats.
 
 ##  Project Structure
 
