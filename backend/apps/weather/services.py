@@ -10,10 +10,11 @@ class OpenWeatherClient:
         api_key = os.getenv("OPENWEATHER_API_KEY")
         if not api_key:
             # Local fallback keeps development unblocked.
+            seed = abs(float(latitude)) + abs(float(longitude))
             return {
-                "main": {"temp": 31.0, "humidity": 74},
-                "wind": {"speed": 2.5},
-                "weather": [{"main": "Clouds"}],
+                "main": {"temp": round(22 + (seed % 10), 1), "humidity": round(55 + (seed % 30), 1)},
+                "wind": {"speed": round(1.5 + (seed % 5), 1)},
+                "weather": [{"main": "Clouds" if int(seed) % 2 else "Clear"}],
             }
 
         resp = requests.get(
@@ -27,9 +28,9 @@ class OpenWeatherClient:
 
 class DiseaseRiskService:
     def score(self, payload: dict) -> tuple[float, str, str]:
-        temp = payload.get("main", {}).get("temp", 0)
-        humidity = payload.get("main", {}).get("humidity", 0)
-        wind = payload.get("wind", {}).get("speed", 0)
+        temp = float(payload.get("main", {}).get("temp", 0) or 0)
+        humidity = float(payload.get("main", {}).get("humidity", 0) or 0)
+        wind = float(payload.get("wind", {}).get("speed", 0) or 0)
 
         score = min(1.0, max(0.0, (humidity / 100) * 0.55 + (temp / 40) * 0.35 + (1 - min(wind / 10, 1)) * 0.1))
         if score >= 0.75:
