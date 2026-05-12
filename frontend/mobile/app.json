@@ -3,6 +3,17 @@
     "name": "ICHS Mobile",
     "slug": "ichs-mobile",
     "version": "0.1.0",
-    "platforms": ["ios", "android"]
+    "platforms": ["ios", "android"],
+    "android": {
+      "permissions": ["CAMERA", "ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+    },
+    "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "ICHS needs camera access to capture crop images for diagnosis.",
+        "NSPhotoLibraryUsageDescription": "ICHS needs photo library access so you can choose crop images for diagnosis.",
+        "NSPhotoLibraryAddUsageDescription": "ICHS may save captured crop photos to your library when needed.",
+        "NSLocationWhenInUseUsageDescription": "ICHS uses your location to provide hyper-local alerts and weather risk."
+      }
+    }
   }
 }
