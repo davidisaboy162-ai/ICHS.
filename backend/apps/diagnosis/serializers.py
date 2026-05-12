@@ -5,21 +5,24 @@ from .models import DiagnosisReport
 
 class TextDiagnosisSerializer(serializers.Serializer):
     symptoms = serializers.CharField()
-    latitude = serializers.FloatField()
-    longitude = serializers.FloatField()
+    latitude = serializers.FloatField(required=False, default=0.0)
+    longitude = serializers.FloatField(required=False, default=0.0)
+    location_name = serializers.CharField(required=False, allow_blank=True, default="")
 
 
 class ImageDiagnosisSerializer(serializers.Serializer):
     file = serializers.ImageField()
-    latitude = serializers.FloatField()
-    longitude = serializers.FloatField()
+    latitude = serializers.FloatField(required=False, default=0.0)
+    longitude = serializers.FloatField(required=False, default=0.0)
+    location_name = serializers.CharField(required=False, allow_blank=True, default="")
 
 
 class CombinedDiagnosisSerializer(serializers.Serializer):
     file = serializers.ImageField(required=False)
     symptoms = serializers.CharField(required=False, allow_blank=True)
-    latitude = serializers.FloatField()
-    longitude = serializers.FloatField()
+    latitude = serializers.FloatField(required=False, default=0.0)
+    longitude = serializers.FloatField(required=False, default=0.0)
+    location_name = serializers.CharField(required=False, allow_blank=True, default="")
 
     def validate(self, attrs):
         if not attrs.get("file") and not attrs.get("symptoms"):
@@ -29,6 +32,7 @@ class CombinedDiagnosisSerializer(serializers.Serializer):
 
 class DiagnosisReportSerializer(serializers.ModelSerializer):
     disease_name = serializers.CharField(source="predicted_disease.name", read_only=True)
+    alerts_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = DiagnosisReport
@@ -41,5 +45,6 @@ class DiagnosisReportSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
             "disease_name",
+            "alerts_count",
             "created_at",
         ]
