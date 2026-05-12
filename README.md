@@ -22,10 +22,10 @@ ICHS/
 
 ## What Works Now
 
-- Web diagnosis with image upload, symptom text, location, weather risk, and nearby reports
-- Mobile diagnosis with camera capture, symptoms, location, weather risk, and nearby reports
-- Backend endpoints without forcing auth for the first run
-- PlantVillage training script with local fallback behavior
+- Web diagnosis with image upload, symptom text, location, weather risk, and nearby reports.
+- Mobile diagnosis with camera capture, symptoms, location, weather risk, and nearby reports.
+- Backend endpoints without forcing auth for the first run.
+- PlantVillage training script with local fallback behavior.
 
 ## Setup
 
