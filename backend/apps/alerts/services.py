@@ -32,3 +32,22 @@ class AlertService:
                     recipient=farmer,
                     defaults={"distance_km": round(distance, 3)},
                 )
+
+    def get_nearby_reports(self, latitude: float, longitude: float, radius_km: float = None):
+        radius_km = radius_km or self.radius_km
+        from apps.diagnosis.models import DiagnosisReport
+
+        nearby = []
+        for report in DiagnosisReport.objects.select_related("predicted_disease").all():
+            distance = self.haversine_km(latitude, longitude, report.latitude, report.longitude)
+            if distance <= radius_km:
+                nearby.append(
+                    {
+                        "report_id": report.id,
+                        "disease": getattr(report.predicted_disease, "name", "Unknown"),
+                        "confidence": report.confidence,
+                        "distance_km": round(distance, 3),
+                        "created_at": report.created_at.isoformat(),
+                    }
+                )
+        return nearby
