@@ -1,22 +1,15 @@
 # ICHS - Inclusive Crop Health System
 
-ICHS is a crop-health diagnosis platform with:
+## AI-Powered Crop Disease Diagnosis for Farmers
 
-- Web app for image + symptom diagnosis
-- Mobile app for camera + GPS capture
-- Backend API for diagnosis, weather risk, and nearby outbreak context
-- Optional CNN training on PlantVillage
+An intelligent platform designed to maximize inclusivity with dual diagnosis capabilities:
+- **Image-based diagnosis** using Convolutional Neural Networks (CNNs) for farmers with smartphone access
+- **Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices
+- **Geo-tagging and alerts** for neighboring farmers about potential outbreak threats
 
-## Stack
+##  Project Structure
 
-- Backend: Django, Django REST Framework, SimpleJWT
-- ML: optional TensorFlow stack for training only, heuristic fallback before a trained model is available
-- Web: React
-- Mobile: Expo / React Native
-
-## Repository Layout
-
-```text
+```
 ICHS/
 ├── backend/
 ├── frontend/
