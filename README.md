@@ -1,192 +1,241 @@
 # ICHS - Inclusive Crop Health System
 
-## AI-Powered Crop Disease Diagnosis for Farmers
+ICHS is a crop-health diagnosis platform with:
 
-An intelligent platform designed to maximize inclusivity with dual diagnosis capabilities:
-- **Image-based diagnosis** using Convolutional Neural Networks (CNNs) for farmers with smartphone access
-- **Text-based diagnosis** using Natural Language Processing (NLP) for farmers with basic devices
-- **Geo-tagging and alerts** for neighboring farmers about potential outbreak threats
+- Web app for image + symptom diagnosis
+- Mobile app for camera + GPS capture
+- Backend API for diagnosis, weather risk, and nearby outbreak context
+- Optional CNN training on PlantVillage
 
-##  Project Structure
+## Stack
 
-```
+- Backend: Django, Django REST Framework, SimpleJWT
+- ML: optional TensorFlow stack for training only, heuristic fallback before a trained model is available
+- Web: React
+- Mobile: Expo / React Native
+
+## Repository Layout
+
+```text
 ICHS/
-├── frontend/              # User interfaces
-│   ├── mobile/           # React Native app (camera + GPS)
-│   ├── web/             # React web app with Leaflet maps
-│   └── shared/          # Shared components
-├── backend/              # Django REST backend
-│   ├── ichs/            # Django project config
-│   ├── apps/            # Modular domain apps
-│   │   ├── users/       # JWT auth + farmer profiles
-│   │   ├── diagnosis/   # Image/text/combined diagnosis APIs
-│   │   ├── alerts/      # Hyper-local outbreak alerts
-│   │   ├── weather/     # Weather-linked risk scoring
-│   │   └── community/   # Farmer community hub
-│   ├── ml/              # ML models & training scripts
-│   └── README.md        # Backend setup details
-├── datasets/            # Data management
-│   ├── images/          # Image datasets
-│   │   └── raw/        # Raw crop images
-│   ├── text/           # Text datasets
-│   ├── processed/      # Processed data
-│   └── dataset_manager.py # Dataset utilities
-├── models/              # Trained model files
-├── config/              # Configuration files
-├── logs/                # Application logs
-├── notebooks/           # Jupyter notebooks
-├── tests/               # Unit tests
-├── Docs/                # Documentation
-└── requirements.txt     # Dependencies
+├── backend/
+├── frontend/
+│   ├── web/
+│   └── mobile/
+├── datasets/
+├── models/
+└── README.md
 ```
 
-##  Quick Start
+## What Works Now
 
-### Prerequisites
-- Python 3.8+
-- Node.js 16+
-- Git
+- Web diagnosis with image upload, symptom text, location, weather risk, and nearby reports
+- Mobile diagnosis with camera capture, symptoms, location, weather risk, and nearby reports
+- Backend endpoints without forcing auth for the first run
+- PlantVillage training script with local fallback behavior
 
-### 1. Clone and Setup
+## Setup
+
+### 1. Python Backend
+
+From the repo root:
+
 ```bash
-git clone <repository-url>
-cd ICHS
+cd /home/contractor/Koding/ICHS/backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r ../requirements.txt
 ```
 
-### 2. Setup Backend
-```bash
-# Install Python dependencies
-pip install -r requirements.txt
+Create a local environment file if you want weather API access:
 
-# Download datasets (see DATASET_SETUP.md)
+```bash
+cp ../.env.example ../.env
+```
+
+Optional environment variables:
+
+- `OPENWEATHER_API_KEY`
+- `DJANGO_SECRET_KEY`
+- `DJANGO_ALLOWED_HOSTS`
+- `DB_ENGINE` to switch away from SQLite
+
+Run the backend:
+
+```bash
+python manage.py migrate --run-syncdb
+python manage.py runserver 0.0.0.0:8000
+```
+
+Health check:
+
+- `GET http://localhost:8000/api/v1/health/`
+
+## Web App
+
+The web app expects the backend at:
+
+- `http://localhost:8000/api/v1`
+
+If you need a different API host, set:
+
+```bash
+export REACT_APP_API_BASE_URL=http://localhost:8000/api/v1
+```
+
+Then run:
+
+```bash
+cd /home/contractor/Koding/ICHS/frontend/web
+npm install
+npm run dev
+```
+
+### Background Video
+
+Place the looping background video here:
+
+- `frontend/web/public/media/background.mp4`
+
+The web frontend uses `/media/background.mp4` automatically.
+
+## Mobile App
+
+The mobile app is a fresh Expo Go client for capture, symptoms, location, weather, and nearby alerts.
+It now targets Expo SDK 55, so make sure Expo Go on your phone is updated to the latest version.
+
+Run:
+
+```bash
+cd /home/contractor/Koding/ICHS/frontend/mobile
+rm -rf node_modules package-lock.json .expo
+npm install
+npm run dev
+```
+
+Default API host behavior:
+
+- Android emulator: `http://10.0.2.2:8000/api/v1`
+- iOS simulator / desktop Expo web: `http://localhost:8000/api/v1`
+- Real phone on LAN: set `EXPO_PUBLIC_API_BASE_URL` to your laptop's LAN IP, for example `http://192.168.1.20:8000/api/v1`
+
+Override it if needed:
+
+```bash
+export EXPO_PUBLIC_API_BASE_URL=http://192.168.1.20:8000/api/v1
+```
+
+For a real phone, `localhost` will not work for the backend URL. Use your computer's LAN IP.
+
+If Expo tries to open Android but your machine does not have the Android SDK, use one of these options:
+
+- Physical phone: install Expo Go on the phone, then run `npm run dev` in `frontend/mobile` and scan the QR code.
+- Android emulator: install Android Studio, then set `ANDROID_HOME` and add `platform-tools` to your `PATH`.
+
+If Expo Go still shows `failed to download remote update`, try a different network or a phone hotspot. Some Wi-Fi networks block device-to-device traffic even when both devices are on the same SSID.
+
+If Expo CLI keeps trying to reach `api.expo.dev`, keep using `npm run dev` in offline mode. That avoids Expo's version lookup and uses the local Metro bundler only.
+The mobile app uses `expo-image-picker` and `expo-location`, so make sure permissions are granted on the device.
+
+Example Android SDK shell setup:
+
+```bash
+export ANDROID_HOME="$HOME/Android/Sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin"
+```
+
+If your SDK lives somewhere else, replace the path above with the actual install location.
+
+## Training the CNN
+
+The training script can use the extracted PlantVillage dataset. If the trained model is not present, the backend still works using heuristic prediction.
+
+Install the optional ML stack only if you want to train the CNN:
+
+```bash
+pip install -r ../requirements-ml.txt
+```
+
+Prepare the dataset:
+
+```bash
+cd /home/contractor/Koding/ICHS
+chmod +x download_datasets.sh
 ./download_datasets.sh
-
-# Start Django API server
-cd backend
-python manage.py migrate
-python manage.py runserver
 ```
-Backend will run on: `http://localhost:8000`
 
-### 3. Setup Frontend
+If you already extracted PlantVillage, make sure the images exist under:
+
+- `datasets/images/plantvillage/raw/`
+
+Train a lightweight smoke-test model:
+
 ```bash
-# Install frontend dependencies
-./setup_frontend.sh
-
-# Start the web app
-cd frontend/web
-npm start
-```
-Frontend will run on: `http://localhost:3000`
-
-##  Frontend Features
-
-###  Web Application
-- **Interactive Map**: Leaflet-powered map showing disease outbreaks
-- **Disease Alerts**: Real-time notifications about nearby outbreaks
-- **Dual Diagnosis**: Image upload + symptom description
-- **Agricultural Theme**: Nature-inspired design with green color palette
-- **Responsive Design**: Works on desktop and mobile devices
-
-###  Mobile App (React Native)
-- **Camera Integration**: Direct photo capture from device
-- **GPS Location**: Automatic geo-tagging of reports
-- **Offline Capability**: Basic functionality without internet
-- **Push Notifications**: Alert system for disease outbreaks
-
-##  Backend Features
-
-###  Machine Learning Pipeline
-- **CNN Models**: ResNet50/EfficientNet for image classification
-- **NLP Models**: BERT/DistilBERT for symptom analysis
-- **Combined Prediction**: Multi-modal diagnosis with confidence scoring
-
-###  Geo-Spatial Services
-- **Location Tracking**: GPS coordinates for all reports
-- **Alert System**: Notify farmers within configurable radius
-- **Outbreak Mapping**: Visualize disease spread patterns
-
-###  API Endpoints
-```
-POST /api/v1/predict/image/      # Image-based diagnosis
-POST /api/v1/predict/text/       # Text-based diagnosis
-POST /api/v1/predict/combined/   # Multi-modal diagnosis
-GET  /api/v1/alerts/             # Get alerts for authenticated farmer
-POST /api/v1/weather/risk/       # Weather-linked disease risk
-GET/POST /api/v1/community/posts/ # Community hub posts
+cd /home/contractor/Koding/ICHS/backend
+source .venv/bin/activate
+python ml/train_cnn.py --subset default --epochs 1 --batch-size 4 --image-size 224 --weights none
 ```
 
-##  Datasets
+Train a fuller model:
 
-### Image Datasets
-- **PlantVillage Dataset**: 54,000+ labeled crop disease images
-- **14 plant species, 38 disease classes**
-- **Supported formats**: JPG, PNG
-
-### Text Datasets
-- **Symptom descriptions** from agricultural extension services
-- **Multi-language support** for global farmers
-- **CSV format** with disease labels and confidence scores
-
-##  Development
-
-### Running Tests
 ```bash
-# Backend tests
-python -m pytest tests/
-
-# Frontend tests
-cd frontend/web && npm test
+python ml/train_cnn.py --subset default --epochs 20 --batch-size 24 --image-size 380
 ```
 
-### Training Models
+Saved model outputs:
+
+- `models/plantvillage_efficientnetb4_final.keras`
+- `models/label_map.json`
+- `models/history.json`
+- `models/metrics_report.json`
+
+## API Endpoints
+
+### Diagnosis
+
+- `POST /api/v1/diagnosis/combined/`
+- `POST /api/v1/predict/combined/`
+- `POST /api/v1/predict/image/`
+- `POST /api/v1/predict/text/`
+- `GET /api/v1/diagnosis/reports/`
+
+### Weather
+
+- `POST /api/v1/weather/risk/`
+
+### Alerts
+
+- `GET /api/v1/alerts/`
+
+With coordinates:
+
+```text
+GET /api/v1/alerts/?latitude=6.5244&longitude=3.3792&radius=10
+```
+
+### Auth
+
+- `POST /api/v1/auth/register/`
+- `POST /api/v1/auth/token/`
+- `POST /api/v1/auth/token/refresh/`
+
+## Notes
+
+- The backend defaults to SQLite for easier local setup.
+- If you want PostgreSQL later, set `DB_ENGINE=django.db.backends.postgresql` and the DB connection variables.
+- `OPENWEATHER_API_KEY` is optional. Without it, the weather endpoint uses deterministic local fallback data.
+
+## Troubleshooting
+
+- If the web background video does not appear, confirm `frontend/web/public/media/background.mp4` exists.
+- If mobile cannot reach the backend, set `EXPO_PUBLIC_API_BASE_URL` to your machine’s LAN IP.
+- If the backend cannot create tables, re-run:
+
 ```bash
-cd backend/ml
-python models.py  # Train CNN and NLP models
+python manage.py migrate --run-syncdb
 ```
 
-### Configuration
-Edit `config/config.yaml` to customize:
-- Model parameters
-- Dataset paths
-- API settings
-- Alert radius
+## License
 
-##  Impact & Inclusivity
-
-### For Smartphone Users
-- **Visual Diagnosis**: Take photos of affected crops
-- **Instant Results**: AI-powered analysis in seconds
-- **Location Services**: Contribute to community health monitoring
-
-### For Basic Device Users
-- **Text Description**: Describe symptoms in natural language
-- **Voice Input**: Future support for voice descriptions
-- **SMS Alerts**: Receive notifications via text messaging
-
-### Community Benefits
-- **Early Warning**: Prevent disease spread through alerts
-- **Data Collection**: Build comprehensive crop health database
-- **Farmer Empowerment**: Access to expert-level diagnosis anywhere
-
-##  Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
-
-##  License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-##  Acknowledgments
-
-- **PlantVillage Dataset** for comprehensive crop disease images
-- **OpenStreetMap** for mapping services
-- **Agricultural extension services** worldwide for symptom databases
-
----
-
-**ICHS** - Empowering farmers with AI for healthier crops and sustainable agriculture 🌾
+MIT
