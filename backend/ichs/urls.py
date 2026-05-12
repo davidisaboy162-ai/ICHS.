@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -20,4 +22,4 @@ urlpatterns = [
     path("api/v1/", include("apps.alerts.urls")),
     path("api/v1/", include("apps.weather.urls")),
     path("api/v1/", include("apps.community.urls")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
