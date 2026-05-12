@@ -43,6 +43,10 @@ class DiagnosisReport(models.Model):
     longitude = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def alerts_count(self) -> int:
+        return self.alerts.count()
+
     class Meta:
         ordering = ["-created_at"]
 
