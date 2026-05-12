@@ -8,7 +8,7 @@ from .services import DiseaseRiskService, OpenWeatherClient
 
 
 class WeatherRiskView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         serializer = WeatherRiskRequestSerializer(data=request.data)
@@ -41,6 +41,11 @@ class WeatherRiskView(APIView):
 
         return Response(
             {
+                "location": {
+                    "latitude": lat,
+                    "longitude": lon,
+                    "location_name": serializer.validated_data.get("location_name", ""),
+                },
                 "risk_score": forecast.risk_score,
                 "risk_level": forecast.risk_level,
                 "explanation": forecast.explanation,
